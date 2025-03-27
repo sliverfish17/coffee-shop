@@ -5,4 +5,6 @@ export enum PAGES {
   ADD_CASHIER = "/add-cashier",
   VIEW_PRODUCT = "/view-product",
   VIEW_CASHIER = "/view-cashier",
+  TRANSACTIONS = "/transactions",
+  LOGIN = "/login",
 }

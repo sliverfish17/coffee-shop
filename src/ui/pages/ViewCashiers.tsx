@@ -1,67 +1,78 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-interface Cashier {
-  _id: string;
-  code: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  address: string;
-  phone: string;
-}
+import { Button } from "../components/ui/Button";
+import { PAGES } from "../types/pages";
+import { useCashiers } from "../hooks/useCashiers";
 
 const ViewCashiers = () => {
-  const [cashiers, setCashiers] = useState<Cashier[]>([]);
+  const { cashiers, isLoading, error } = useCashiers();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchCashiers = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/cashiers");
-        const data = await res.json();
-        setCashiers(data);
-      } catch (err) {
-        console.error("❌ Не вдалося завантажити касирів:", err);
-      }
-    };
-
-    fetchCashiers();
-  }, []);
-
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-2">Список касирів</h2>
-      <table className="table-auto w-full border-collapse border">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-2">Код</th>
-            <th className="border p-2">ПІБ</th>
-            <th className="border p-2">Адреса</th>
-            <th className="border p-2">Телефон</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cashiers.map((c) => (
-            <tr key={c._id}>
-              <td className="border p-2">{c.code}</td>
-              <td className="border p-2">
-                {c.lastName} {c.firstName} {c.middleName}
-              </td>
-              <td className="border p-2">{c.address}</td>
-              <td className="border p-2">{c.phone}</td>
-              <td className="border p-2">
-                <button
-                  onClick={() => navigate(`/edit-cashier/${c.code}`)}
-                  className="text-blue-600 underline"
-                >
-                  Редагувати
-                </button>
-              </td>
+    <div className="container mx-auto space-y-6 py-10">
+      <h1 className="text-3xl sm:text-4xl text-center text-white font-bold mb-8">
+        Список касирів
+      </h1>
+
+      <div className="overflow-x-auto rounded-lg shadow-md border border-zinc-700">
+        <table className="w-full text-left text-sm text-white bg-zinc-900">
+          <thead className="bg-zinc-800 text-zinc-300 text-xs uppercase tracking-wider">
+            <tr className="bg-zinc-900">
+              <th className="px-4 py-3">Код</th>
+              <th className="px-4 py-3">ПІБ</th>
+              <th className="px-4 py-3">Адреса</th>
+              <th className="px-4 py-3">Телефон</th>
+              <th className="px-4 py-3 text-right">Дія</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {isLoading && (
+              <tr>
+                <td colSpan={5} className="text-center text-zinc-500 py-6">
+                  Завантаження...
+                </td>
+              </tr>
+            )}
+            {error && (
+              <tr>
+                <td colSpan={5} className="text-center text-red-500 py-6">
+                  {error}
+                </td>
+              </tr>
+            )}
+            {cashiers.map((c) => (
+              <tr
+                key={c._id}
+                className="border-t border-zinc-700 bg-zinc-800 transition text-white"
+              >
+                <td className="px-4 py-3 font-mono">{c.code}</td>
+                <td className="px-4 py-3">
+                  {c.lastName} {c.firstName} {c.middleName}
+                </td>
+                <td className="px-4 py-3">{c.address}</td>
+                <td className="px-4 py-3">{c.phone}</td>
+                <td className="px-4 py-3 text-right">
+                  <Button
+                    onClick={() => navigate(`${PAGES.EDIT_CASHIER}/${c.code}`)}
+                    className="text-blue-500 hover:text-blue-400 transition underline font-medium"
+                  >
+                    Редагувати
+                  </Button>
+                </td>
+              </tr>
+            ))}
+            {cashiers.length === 0 && (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="text-center text-zinc-500 py-6 italic"
+                >
+                  Дані відсутні
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

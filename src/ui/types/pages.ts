@@ -7,4 +7,5 @@ export enum PAGES {
   VIEW_CASHIER = "/view-cashier",
   TRANSACTIONS = "/transactions",
   LOGIN = "/login",
+  FUND = "/fund",
 }

@@ -42,10 +42,10 @@ const EditCashier = () => {
       });
 
       if (!res.ok) throw new Error();
-      toast.success("✅ Касира оновлено успішно");
+      toast.success("Касира оновлено успішно");
       navigate("/view-cashier");
     } catch {
-      toast.error("❌ Помилка при оновленні");
+      toast.error("Помилка при оновленні");
     }
   };
 
@@ -59,12 +59,6 @@ const EditCashier = () => {
       </h1>
 
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label="Код касира"
-          placeholder="226245"
-          {...register("code")}
-          error={errors.code?.message}
-        />
         <Input
           label="Прізвище"
           placeholder="Іванов"

@@ -2,7 +2,6 @@ import { app, BrowserWindow, Menu } from "electron";
 import path from "path";
 import { isDev } from "./util.js";
 import { getPreloadPath } from "./pathResolver.js";
-import { menuTemplate } from "./menu.js";
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
@@ -15,7 +14,7 @@ app.on("ready", () => {
     },
   });
 
-  const menu = Menu.buildFromTemplate(menuTemplate);
+  const menu = Menu.buildFromTemplate([]);
   Menu.setApplicationMenu(menu);
 
   if (isDev()) {

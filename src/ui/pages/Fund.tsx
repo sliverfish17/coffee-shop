@@ -12,7 +12,7 @@ const Fund = () => {
     cart,
     form,
     setForm,
-    handleAdd,
+    handleAddProduct,
     handleRemove,
     removeId,
     setRemoveId,
@@ -43,10 +43,11 @@ const Fund = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-3xl py-10 text-white space-y-4">
-      <h1 className="text-4xl text-center font-bold">Каса</h1>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 container mx-auto py-10 text-white">
+      {/* Left */}
+      <div className="space-y-4 lg:col-span-1">
+        <h1 className="text-4xl text-center font-bold">Каса</h1>
 
-      <div className="grid sm:grid-cols-2 gap-4">
         <Select
           label="Касир"
           value={form.cashier}
@@ -56,73 +57,79 @@ const Fund = () => {
             label: `${c.lastName} ${c.firstName}`,
           }))}
         />
-        <div>
-          <label className="text-sm font-medium text-white">
-            Код транзакції
-          </label>
-          <input
-            value={form.transactionCode}
-            readOnly
-            className="w-full p-2 rounded bg-zinc-800 text-white"
-          />
-        </div>
-      </div>
 
-      <div className="grid sm:grid-cols-3 gap-4">
-        <Select
-          label="Товар"
-          value={form.product}
-          onChange={(e) => setForm({ ...form, product: e.target.value })}
-          options={products.map((p) => ({ value: p.code, label: p.name }))}
+        <input
+          value={form.transactionCode}
+          readOnly
+          className="w-full p-2 rounded bg-zinc-800 text-white"
         />
-        <div>
-          <label className="text-sm font-medium text-white">Кількість</label>
-          <input
-            type="number"
-            value={form.quantity}
-            onChange={(e) => setForm({ ...form, quantity: +e.target.value })}
-            className="w-full p-2 rounded bg-zinc-800 text-white"
-            min={1}
-          />
-        </div>
-        <div className="flex items-end">
-          <Button onClick={handleAdd} fullWidth>
-            Додати товар
-          </Button>
-        </div>
-      </div>
-      {cart.length !== 0 && <Cart items={cart} />}
 
-      <div className="grid sm:grid-cols-2 gap-4">
+        {cart.length !== 0 && <Cart items={cart} />}
+
         <Select
-          label="Відмінити товар"
+          label="Видалити товар"
           value={removeId}
           onChange={(e) => setRemoveId(e.target.value)}
           options={cart.map((c) => ({ value: c.productId, label: c.name }))}
         />
-        <div className="flex items-end">
-          <Button onClick={handleRemove} fullWidth>
-            Видалити
-          </Button>
+
+        <Button onClick={handleRemove} fullWidth>
+          Видалити
+        </Button>
+
+        <Select
+          label="Тип оплати"
+          value={form.paymentType}
+          onChange={(e) => setForm({ ...form, paymentType: e.target.value })}
+          options={[
+            { value: "Готівка", label: "Готівка" },
+            { value: "Картка", label: "Картка" },
+          ]}
+        />
+
+        <div className="text-right text-xl font-semibold pt-4">
+          Сума: {total} грн
         </div>
+
+        <Button onClick={handlePurchase} disabled={loading} fullWidth>
+          Покупка
+        </Button>
       </div>
 
-      <Select
-        label="Тип оплати"
-        value={form.paymentType}
-        onChange={(e) => setForm({ ...form, paymentType: e.target.value })}
-        options={[
-          { value: "Готівка", label: "Готівка" },
-          { value: "Картка", label: "Картка" },
-        ]}
-      />
+      {/* Right */}
+      <div className="lg:col-span-2 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 justify-center">
+        {products.map((product) => (
+          <div
+            key={product.code}
+            onClick={() => handleAddProduct(product, 1)}
+            className="cursor-pointer group border border-zinc-700 rounded-xl overflow-hidden bg-zinc-900 hover:shadow-lg transition flex flex-col w-40 sm:w-44 h-60"
+          >
+            <div className="h-2/3 overflow-hidden">
+              {product.imageUrl ? (
+                <img
+                  src={`http://localhost:3000${product.imageUrl}`}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition"
+                />
+              ) : (
+                <div className="flex items-center justify-center w-full h-full text-zinc-500">
+                  Немає фото
+                </div>
+              )}
+            </div>
 
-      <div className="text-right text-xl font-semibold pt-4">
-        Загальна сума: {total} грн
+            <div className="p-2 flex-1 flex flex-col justify-between">
+              <h2 className="font-semibold text-sm truncate">{product.name}</h2>
+              <p className="text-xs text-zinc-400 truncate">
+                {product.description || "—"}
+              </p>
+              <div className="text-right font-bold text-base">
+                {product.price} грн
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-      <Button onClick={handlePurchase} disabled={loading} fullWidth>
-        Покупка
-      </Button>
     </div>
   );
 };

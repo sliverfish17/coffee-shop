@@ -64,7 +64,11 @@ function App() {
               </>
             )}
             {role === "cashier" && (
-              <Route path={PAGES.FUND} element={<Fund />} />
+              <>
+                <Route path={PAGES.FUND} element={<Fund />} />
+                <Route path={PAGES.VIEW_PRODUCT} element={<ViewProducts />} />
+                <Route path={PAGES.ADD_PRODUCT} element={<AddProduct />} />
+              </>
             )}
             <Route path="*" element={<Navigate to={PAGES.LOGIN} replace />} />
           </Route>

@@ -33,7 +33,11 @@ const AddProduct = () => {
     formData.append("name", data.name);
     formData.append("description", data.description || "");
     formData.append("price", String(data.price));
-    formData.append("image", (data.image as FileList)[0]);
+    const image = data.image as FileList | undefined;
+
+    if (image && image.length > 0) {
+      formData.append("image", image[0]);
+    }
 
     try {
       const res = await fetch("http://localhost:3000/products", {

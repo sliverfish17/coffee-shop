@@ -41,7 +41,7 @@ const ViewCashiers = () => {
             )}
             {cashiers.map((c) => (
               <tr
-                key={c._id}
+                key={c.code}
                 className="border-t border-zinc-700 bg-zinc-800 transition text-white"
               >
                 <td className="px-4 py-3 font-mono">{c.code}</td>

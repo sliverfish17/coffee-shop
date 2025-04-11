@@ -78,6 +78,29 @@ export const useFund = () => {
 
   const total = cart.reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
 
+  const handleAddProduct = (product: Product, quantity: number = 1) => {
+    setCart((prev) => {
+      const existing = prev.find((c) => c.productId === product.code);
+      if (existing) {
+        return prev.map((c) =>
+          c.productId === product.code
+            ? { ...c, quantity: c.quantity + quantity }
+            : c
+        );
+      }
+
+      return [
+        ...prev,
+        {
+          productId: product.code,
+          name: product.name,
+          quantity,
+          price: product.price,
+        },
+      ];
+    });
+  };
+
   return {
     cashiers,
     products,
@@ -85,6 +108,7 @@ export const useFund = () => {
     form,
     setForm,
     handleAdd,
+    handleAddProduct,
     handleRemove,
     removeId,
     setRemoveId,

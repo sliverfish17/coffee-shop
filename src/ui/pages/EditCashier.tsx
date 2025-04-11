@@ -26,7 +26,6 @@ const EditCashier = () => {
     mode: "onChange",
   });
 
-  // коли дані прийшли — наповнюємо форму
   useEffect(() => {
     if (cashier) {
       reset(cashier);

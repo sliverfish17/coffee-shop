@@ -14,22 +14,22 @@ export const menuItems: {
     category: "Касир",
     roles: [ROLES.ADMIN],
     links: [
-      { label: "➕ Додати касира", to: PAGES.ADD_CASHIER },
+      { label: "💼 Додати касира", to: PAGES.ADD_CASHIER },
       { label: "👁️ Перегляд касирів", to: PAGES.VIEW_CASHIER },
     ],
   },
   {
     category: "Товар",
-    roles: [ROLES.ADMIN],
+    roles: [ROLES.ADMIN, ROLES.CASHIER],
     links: [
-      { label: "➕ Додати товар", to: PAGES.ADD_PRODUCT },
+      { label: "🛒 Додати товар", to: PAGES.ADD_PRODUCT },
       { label: "👁️ Перегляд товарів", to: PAGES.VIEW_PRODUCT },
     ],
   },
   {
     category: "Транзакції",
     roles: [ROLES.ADMIN],
-    links: [{ label: "➕ Переглянути транзакції", to: PAGES.TRANSACTIONS }],
+    links: [{ label: "💳 Переглянути транзакції", to: PAGES.TRANSACTIONS }],
   },
   {
     category: "Робота",

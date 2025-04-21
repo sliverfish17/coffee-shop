@@ -39,27 +39,30 @@ const ViewCashiers = () => {
                 </td>
               </tr>
             )}
-            {cashiers.map((c) => (
-              <tr
-                key={c.code}
-                className="border-t border-zinc-700 bg-zinc-800 transition text-white"
-              >
-                <td className="px-4 py-3 font-mono">{c.code}</td>
-                <td className="px-4 py-3">
-                  {c.lastName} {c.firstName} {c.middleName}
-                </td>
-                <td className="px-4 py-3">{c.address}</td>
-                <td className="px-4 py-3">{c.phone}</td>
-                <td className="px-4 py-3 text-right">
-                  <Button
-                    onClick={() => navigate(`${PAGES.EDIT_CASHIER}/${c.code}`)}
-                    className="text-blue-500 hover:text-blue-400 transition underline font-medium"
-                  >
-                    Редагувати
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {Array.isArray(cashiers) &&
+              cashiers.map((c) => (
+                <tr
+                  key={c.code}
+                  className="border-t border-zinc-700 bg-zinc-800 transition text-white"
+                >
+                  <td className="px-4 py-3 font-mono">{c.code}</td>
+                  <td className="px-4 py-3">
+                    {c.lastName} {c.firstName} {c.middleName}
+                  </td>
+                  <td className="px-4 py-3">{c.address}</td>
+                  <td className="px-4 py-3">{c.phone}</td>
+                  <td className="px-4 py-3 text-right">
+                    <Button
+                      onClick={() =>
+                        navigate(`${PAGES.EDIT_CASHIER}/${c.code}`)
+                      }
+                      className="text-blue-500 hover:text-blue-400 transition underline font-medium"
+                    >
+                      Редагувати
+                    </Button>
+                  </td>
+                </tr>
+              ))}
             {cashiers.length === 0 && (
               <tr>
                 <td

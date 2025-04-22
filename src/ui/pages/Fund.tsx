@@ -4,6 +4,7 @@ import { Button } from "../components/ui/Button";
 import { Select } from "../components/ui/Select";
 import { useTransaction } from "../hooks/useTransaction";
 import { v4 as uuidv4 } from "uuid";
+import toast from "react-hot-toast";
 
 const Fund = () => {
   const {
@@ -22,6 +23,21 @@ const Fund = () => {
   const { sendTransaction, loading } = useTransaction();
 
   const handlePurchase = async () => {
+    if (!form.cashier) {
+      toast.error("Оберіть касира перед покупкою");
+      return;
+    }
+
+    if (!form.paymentType) {
+      toast.error("Оберіть тип оплати");
+      return;
+    }
+
+    if (cart.length === 0) {
+      toast.error("Кошик порожній");
+      return;
+    }
+
     const now = new Date().toISOString();
 
     const items = cart.map((item) => ({

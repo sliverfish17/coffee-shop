@@ -8,6 +8,10 @@ interface Transaction {
   quantity: number;
   price: number;
   date: string;
+  cashier?: {
+    firstName: string;
+    lastName: string;
+  };
 }
 
 const Transactions = () => {
@@ -87,6 +91,12 @@ const Transactions = () => {
           <h2 className="text-xl font-bold mb-2 text-zinc-200">
             Транзакція: <span className="font-mono">{code}</span>
           </h2>
+          <p className="text-sm text-zinc-400 mb-2">
+            Касир:{" "}
+            {txList[0].cashier
+              ? `${txList[0].cashier.lastName} ${txList[0].cashier.firstName}`
+              : "Невідомо"}
+          </p>
 
           <div className="overflow-x-auto rounded-lg shadow border border-zinc-700">
             <table className="w-full table-auto text-sm bg-zinc-900">

@@ -15,6 +15,21 @@ const EditProduct = () => {
   const { product, isLoading, error, code } = useProductByCode();
   const navigate = useNavigate();
 
+  const handleDelete = async () => {
+    if (!window.confirm("Ви впевнені, що хочете видалити цей товар?")) return;
+    try {
+      const res = await fetch(`http://localhost:3000/products/${code}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error();
+      toast.success("Товар видалено успішно");
+      navigate("/view-product");
+    } catch {
+      toast.error("Помилка при видаленні товару");
+    }
+  };
+
   const {
     register,
     handleSubmit,
@@ -78,6 +93,9 @@ const EditProduct = () => {
           {...register("price")}
           error={errors.price?.message}
         />
+        <Button type="button" fullWidth onClick={handleDelete}>
+          Видалити товар
+        </Button>
 
         <Button type="submit" fullWidth disabled={isSubmitting || !isValid}>
           {isSubmitting ? "Збереження..." : "Зберегти зміни"}

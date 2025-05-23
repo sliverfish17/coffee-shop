@@ -7,6 +7,7 @@ export type TransactionItem = {
   quantity: number;
   price: number;
   date: string;
+  cashierId: number | null;
 };
 
 export const useTransaction = () => {
@@ -27,6 +28,7 @@ export const useTransaction = () => {
             quantity: item.quantity,
             price: item.price,
             date: new Date().toISOString(),
+            cashierId: item.cashierId,
           }))
         ),
       });

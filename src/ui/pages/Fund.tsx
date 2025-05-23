@@ -22,6 +22,13 @@ const Fund = () => {
   } = useFund();
   const { sendTransaction, loading } = useTransaction();
 
+  const getCashierIdByCode = (code: string) => {
+    const found = cashiers.find((c) => c.code === code);
+    return found?.id ?? null;
+  };
+
+  const cashierId = getCashierIdByCode(form.cashier);
+
   const handlePurchase = async () => {
     if (!form.cashier) {
       toast.error("Оберіть касира перед покупкою");
@@ -46,6 +53,7 @@ const Fund = () => {
       quantity: item.quantity,
       price: item.price,
       date: now,
+      cashierId,
     }));
 
     const success = await sendTransaction(items);

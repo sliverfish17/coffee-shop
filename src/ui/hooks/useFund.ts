@@ -8,12 +8,15 @@ export type CartItem = {
   price: number;
 };
 
-type Cashier = {
+interface Cashier {
+  id: number;
   code: string;
   lastName: string;
   firstName: string;
   middleName: string;
-};
+  address: string;
+  phone: string;
+}
 
 type Product = {
   code: string;

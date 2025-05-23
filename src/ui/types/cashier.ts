@@ -1,6 +1,6 @@
 export interface Cashier {
-  _id: string;
-  code: number;
+  id: number;
+  code: string;
   lastName: string;
   firstName: string;
   middleName: string;
